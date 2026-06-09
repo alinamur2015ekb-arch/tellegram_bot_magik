@@ -9,6 +9,11 @@ from aiogram.fsm.context import FSMContext
 router = Router()
 answers_memes = ["2", "3", "1", "3", "2"]
 
+@router.message(Command("cansel"))
+async def cansel(message: Message, state: FSMContext):
+    await state.clear()
+    await message.answer("удалена игра")
+    
 @router.message(Command("random"))
 async def random(message: Message, state: FSMContext):
     number = random.randint(1, 10)
