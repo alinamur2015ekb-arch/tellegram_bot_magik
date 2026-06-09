@@ -2,7 +2,11 @@ from aiogram import Bot, Dispatcher
 import os
 from dotenv import load_dotenv
 from main.hendlers import router as hendlers_router
-
+from main.hendlers_python import router as hendlers_router_python
+from main.hendlers_robotics import router as hendlers_router_robotics
+from main.my_command import router as hendlers_command
+from main.play1 import router as hendlers_play1
+from main.play2 import router as hendlers_play2
 import asyncio
 import asyncio
 import aiohttp
@@ -26,7 +30,12 @@ token = os.getenv("TOKEN")
 
 dp = Dispatcher()
 dp.include_routers(
-    hendlers_router
+    hendlers_router,
+    hendlers_router_python,
+    hendlers_router_robotics,
+    hendlers_command,
+    hendlers_play1,
+    hendlers_play1
 )
 
 async def handle(request):
