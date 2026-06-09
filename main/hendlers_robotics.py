@@ -15,6 +15,10 @@ async def roborics(message: Message):
     await message.answer("Выберите уровень сложности",
                          reply_markup=robotics)
 
+@router.message(Command("cansel"))
+async def cansel(message: Message, state: FSMContext):
+    await state.clear()
+    await message.answer("Анкета удалена")
 # 1 уровень
 @router.callback_query(F.data == "one_robotics")
 async def one_robotics(state: FSMContext, callback: CallbackQuery):
