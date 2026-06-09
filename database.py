@@ -15,10 +15,10 @@ async def init_answer():
                     answer_python2 INTEGER,
                     answer_python3 INTEGER,
                     answer_robotics1 INTEGER,
-                    answer_robotics2 INTEGER,
-                        )
-''')
-    await db.commit()
+                    answer_robotics2 INTEGER
+            )
+        ''')
+        await db.commit()
 
 
 async def create_answer(answer_math1, answer_math2, answer_math3, answer_python1, answer_python2, answer_python3, answer_robotics1, answer_robotics2):
@@ -27,9 +27,9 @@ async def create_answer(answer_math1, answer_math2, answer_math3, answer_python1
     INSERT INTO answer (answer_math1, answer_math2, answer_math3, 
                         answer_python1, answer_python2, answer_python3, 
                         answer_robotics1, answer_robotics2) 
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+    VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ''', (answer_math1, answer_math2, answer_math3, answer_python1, answer_python2, answer_python3, answer_robotics1, answer_robotics2))
-    await db.commit()
+        await db.commit()
 
 async def get_answer():
     async with aiosqlite.connect(DB_NAME) as db:
@@ -45,16 +45,16 @@ async def init_play():
                         id PRIMARY KEY,
                         random INTEGER,
                         meme INTEGER
-                        )
-''')
-        await db.commit
+            )
+        ''')
+        await db.commit()
         
 async def create_play(random, meme):
     async with aiosqlite.connect(DB_NAME) as db:
         await db.execute(''' 
-        INSERT INTO plsy_static (random, meme)
+        INSERT INTO play_static (random, meme)
         VALUES (?, ?)
-''', (random, meme))
+        ''', (random, meme))
         await db.commit()
 
 
