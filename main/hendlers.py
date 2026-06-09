@@ -56,7 +56,7 @@ async def c(message: Message, state: FSMContext):
 
 @router.message(math1.d, F.text)
 async def d(message: Message, state: FSMContext):
-    await message.answer("<b> 5 вопрос </b> 52/4")
+    await message.answer("<b> 5 вопрос </b> 52/4", parse_mode="HTML")
     await state.set_state(math1.e)
     count_math1 = 0
     data1 = await state.get_data()
