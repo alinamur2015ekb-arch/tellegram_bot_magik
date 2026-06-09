@@ -22,131 +22,136 @@ async def mathes(message: Message):
     await message.answer("Выберите уровень сложности",
                         reply_markup=math)
     
-#уровень 1
 @router.callback_query(F.data == "one_math")
 async def one(callback: CallbackQuery, state: FSMContext):
-    await callback.message.answer("Викторина по математике уровень легкий")
-    await callback.message.answer("<b>1 вопрос </b> \n 8 * 7",
-                            parse_mode="HTML")
+    await callback.message.answer("Викторина по математике: уровень Лёгкий")
+    await callback.message.answer("<b>1 вопрос </b> \n 8 * 7", parse_mode="HTML")
     await state.set_state(math1.a)
     await callback.answer()
 
-
 @router.message(math1.a, F.text)
 async def a(message: Message, state: FSMContext):
-    message.answer("<b> 2 вопрос </b> 45/9",
-                   parse_mode="HTML")
+    await state.update_data(a=message.text) # Сохраняем ответ на 1 вопрос
+    await message.answer("<b>2 вопрос </b> \n 45 / 9", parse_mode="HTML")
     await state.set_state(math1.b)
-
 
 @router.message(math1.b, F.text)
 async def b(message: Message, state: FSMContext):
-    await message.answer("<b> 3 вопрос </b> 23 * 10",
-                   parse_mode="HTML")
+    await state.update_data(b=message.text) # Сохраняем ответ на 2 вопрос
+    await message.answer("<b>3 вопрос </b> \n 23 * 10", parse_mode="HTML")
     await state.set_state(math1.c)
 
 @router.message(math1.c, F.text)
 async def c(message: Message, state: FSMContext):
-    await message.answer("<b> 4 вопрос </b> 48/3",
-                   parse_mode="HTML")
+    await state.update_data(c=message.text) # Сохраняем ответ на 3 вопрос
+    await message.answer("<b>4 вопрос </b> \n 48 / 3", parse_mode="HTML")
     await state.set_state(math1.d)
 
 @router.message(math1.d, F.text)
 async def d(message: Message, state: FSMContext):
-    await message.answer("<b> 5 вопрос </b> 52/4")
-    await state.set_state(math1.e)
-    count_math1 = 0
+    await state.update_data(d=message.text) # Сохраняем ответ на 4 вопрос
+    await message.answer("<b>5 вопрос </b> \n 52 / 4", parse_mode="HTML")
+    await state.set_state
+(math1.e)
+
+# Новый хендлер, который ловит ответ на 5-й вопрос и считает баллы!
+@router.message(math1.e, F.text)
+async def e(message: Message, state: FSMContext):
+    await state.update_data(e=message.text) # Сохраняем ответ на 5 вопрос
+    
     data1 = await state.get_data()
     
-    a=data1.get("a"), 
-    b=data1.get("b"), 
-    c=data1.get("c"),
-    d=data1.get("d"),
-    e=data1.get("e")
+    # Получаем чистые строки без запятых на конце
+    user_a = data1.get("a")
+    user_b = data1.get("b")
+    user_c = data1.get("c")
+    user_d = data1.get("d")
+    user_e = data1.get("e")
     
-    if a == answers_math1[0]:
+    count_math1 = 0
+    if user_a == answers_math1[0]:
         count_math1 += 1
-    if b == answers_math1[1]:
+    if user_b == answers_math1[1]:
         count_math1 += 1
-    if c == answers_math1[2]:
+    if user_c == answers_math1[2]:
         count_math1 += 1
-    if d == answers_math1[3]:
+    if user_d == answers_math1[3]:
         count_math1 += 1
-    if e == answers_math1[4]:
+    if user_e == answers_math1[4]:
         count_math1 += 1
 
-    await message.answer(f"У вас {count_math1}/5 <b>правильных</b> ответов.",
-                   parse_mode="HTML")
+    await message.answer(f"У вас {count_math1}/5 <b>правильных</b> ответов.", parse_mode="HTML")
     
     await create_answer(
-        answer_math1 = count_math1
+        answer_math1=count_math1
     )
     await state.clear()
 
-#уровень 2
+
+# ================= УРОВЕНЬ 2 =================
+
 @router.callback_query(F.data == "two_math")
 async def two(callback: CallbackQuery, state: FSMContext):
-    await callback.message.answer("Викторина по математике уровень средний")
-    await callback.message.answer("<b>1 вопрос </b> \n Сократи дробь 6/30 до самой маленькой возможной дроби",
-                            parse_mode="HTML")
+    await callback.message.answer("Викторина по математике: уровень Средний")
+    await callback.message.answer("<b>1 вопрос </b> \n Сократи дробь 6/30 до самой маленькой возможной дроби", parse_mode="HTML")
     await state.set_state(math2.a1)
     await callback.answer()
 
-
 @router.message(math2.a1, F.text)
 async def a1(message: Message, state: FSMContext):
-    await message.answer("<b> 2 вопрос </b> Запиши число 5 дробью с числителем 10 ",
-                   parse_mode="HTML")
+    await state.update_data(a1=message.text)
+    await message.answer("<b>2 вопрос </b> \n Запиши число 5 дробью с числителем 10", parse_mode="HTML")
     await state.set_state(math2.b1)
-
 
 @router.message(math2.b1, F.text)
 async def b1(message: Message, state: FSMContext):
-    await message.answer("<b> 3 вопрос </b> 2/3 + 3/3",
-                   parse_mode="HTML")
+    await state.update_data(b1=message.text)
+    await message.answer("<b>3 вопрос </b> \n 2/3 + 3/3", parse_mode="HTML")
     await state.set_state(math2.c1)
-
 
 @router.message(math2.c1, F.text)
 async def c1(message: Message, state: FSMContext):
-    await message.answer("<b> 4 вопрос </b> 10/4 - 5/4",
-                   parse_mode="HTML")
+    await state.update_data(c1=message.text)
+    await message.answer("<b>4 вопрос </b> \n 10/4 - 5/4", parse_mode="HTML")
     await state.set_state(math2.d1)
-
 
 @router.message(math2.d1, F.text)
 async def d1(message: Message, state: FSMContext):
-    await message.answer("<b> 5 вопрос </b> 2/2 * 3/2")
+    await state.update_data(d1=message.text)
+    await message.answer("<b>5 вопрос </b> \n 2/2 * 3/2", parse_mode="HTML")
     await state.set_state(math2.e1)
-    count_math2 = 0
+
+
+@router.message(math2.e1, F.text)
+async def e1(message: Message, state: FSMContext):
+    await state.update_data(e1=message.text)
+    
     data2 = await state.get_data()
     
-    a1=data2.get("a1"), 
-    b1=data2.get("b1"), 
-    c1=data2.get("c1"),
-    d1=data2.get("d1"),
-    e1=data2.get("e1")
+    user_a1 = data2.get("a1")
+    user_b1 = data2.get("b1")
+    user_c1 = data2.get("c1")
+    user_d1 = data2.get("d1")
+    user_e1 = data2.get("e1")
     
-    if a1 == answers_math2[0]:
+    count_math2 = 0
+    if user_a1 == answers_math2[0]:
         count_math2 += 1
-    if b1 == answers_math2[1]:
+    if user_b1 == answers_math2[1]:
         count_math2 += 1
-    if c1 == answers_math2[2]:
+    if user_c1 == answers_math2[2]:
         count_math2 += 1
-    if d1 == answers_math2[3]:
+    if user_d1 == answers_math2[3]:
         count_math2 += 1
-    if e1 == answers_math2[4]:
+    if user_e1 == answers_math2[4]:
         count_math2 += 1
 
-
-    await message.answer(f"У вас {count_math2}/5 <b>правильных</b> ответов.",
-                   parse_mode="HTML")
+    await message.answer(f"У вас {count_math2}/5 <b>правильных</b> ответов.", parse_mode="HTML")
     
     await create_answer(
-        answer_math2 = count_math2
+        answer_math2=count_math2
     )
     await state.clear()
-
 #уровень 3    
 @router.callback_query(F.data == "three_math")
 async def one(callback: CallbackQuery, state: FSMContext):
