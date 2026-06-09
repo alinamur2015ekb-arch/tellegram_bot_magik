@@ -6,11 +6,6 @@ from .keyboard import quest, choice, a, b
 
 router = Router()
 
-@router.message(Command("cansel"))
-async def cansel(message: Message, state: FSMContext):
-    await state.clear()
-    await message.answer("удалена игра")
-    
 @router.message(Command("/quest"))
 async def wuest(message: Message):
     await message.answer("Это игра Камень-Ножницы-Бумага. Сделайте выбор.", reply_markup=quest)
