@@ -14,11 +14,6 @@ three_python_answer = ["3", "2", "2", "1", "1"]
 @router.message(Command("python"))
 async def python(message:Message):
     await message.answer("Выберите уровень сложности", reply_markup=python)
-    
-@router.message(Command("cansel"))
-async def cansel(message: Message, state: FSMContext):
-    await state.clear()
-    await message.answer("Анкета удалена")
 
 #уровень 1
 @router.callback_query(F.data=="one_python")
