@@ -35,8 +35,8 @@ async def main():
     bot = Bot(Token = token)
     await dp.start_polling(bot)
 
-    await init_db()
-    await init_db2()
+    await init_answer()
+    await init_play()
 
     app = web.Application()
     app.router.add_get('/', handle)
