@@ -28,9 +28,24 @@ dp.include_routers(
     hendlers_router
 )
 
+async def handle(request):
+    return web.Response(text="Bot is running!")
+    
 async def main():
     bot = Bot(Token = token)
     await dp.start_polling(bot)
+
+    await init_db()
+    await init_db2()
+
+    app = web.Application()
+    app.router.add_get('/', handle)
+    runner = web.AppRunner(app)
+    await runner.setup()
+    runner = web.AppRunner(app)
+    await runner.setup()
+    site = web.TCPSite(runner, '0.0.0.0', 10000)
+    await site.start()
 
 
 if __name__ == "__main__":
